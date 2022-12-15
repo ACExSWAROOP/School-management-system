@@ -264,7 +264,6 @@ def mainwindow():
             with open("dnd.txt","r+") as x:
                 y = x.read()
                 y = decrypt(y)
-                print(y)
                 if y == "":
                     mysqlpassget()
                 elif y!="":
@@ -346,7 +345,6 @@ def mainwindow():
     with open("dnd.txt","r+") as x:
         y = x.read()
         y = decrypt(y)
-        print(y)
         if y == "":
             mysqlpassget()
         try:
