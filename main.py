@@ -1,8 +1,7 @@
 #thanks to rdbende for the tkinter theme sv_ttk
-#BY MSG SWARUPA
+#BY ACExSWAROOP aka MSG SWARUPA
 
 #############################################importing all modules#############################################
-####################by MSG SWARUPA######################
 
 import ssl
 from tkinter import *
@@ -13,7 +12,6 @@ import mysql.connector as sequal
 import sv_ttk as sv
 import csv
 from csv import *
-from statistics import *
 from tkinter import filedialog
 import smtplib
 from email.message import EmailMessage
@@ -24,7 +22,6 @@ from datetime import date, timedelta
 from string import ascii_letters, ascii_lowercase, ascii_uppercase, digits
 
 ##################################################mainprogram############################################
-####################by MSG SWARUPA######################
 
 global count
 count = 0
@@ -104,20 +101,17 @@ def decrypt(strg: str):
     return strg
 
 #############################################read theme mode############################################
-####################by MSG SWARUPA######################
 
 with open("mode.txt", "r") as x:
     y=x.readline()
     mode=y
 
 ############################################write theme mode############################################
-####################by MSG SWARUPA######################
 
 with open("mode.txt",'w') as x:
         x.write(mode)
 
 ############################################settingswindow##############################################
-####################by MSG SWARUPA######################
 
 def settings():
     global setting
@@ -132,7 +126,6 @@ def settings():
     setting.after(3000,lambda:setting.destroy())
     setting.mainloop()
 ##############################################themewindow###############################################
-####################by MSG SWARUPA######################
 
 def themechose():
     global theme
@@ -167,8 +160,7 @@ def themechose():
     close_button.place(x=228, y=176)
     
     theme.mainloop()
-#######################################################darkmode##########################################
-####################by MSG SWARUPA######################
+#######################################################darkmode#############################################
 
 def dark():
     global mode
@@ -184,7 +176,6 @@ def dark():
         os.system('python main.py')
         
 ###################################################lightmode############################################
-####################by MSG SWARUPA######################
 
 def light():
     global mode
@@ -200,7 +191,6 @@ def light():
         os.system('python main.py')
         
 ###################################################mainsplash###########################################
-####################by MSG SWARUPA######################
 
 mainsplash = Tk()
 sv.set_theme(mode)
@@ -227,20 +217,17 @@ elif mode == "dark":
     label1.pack()
 
 ################################################closeprogram############################################
-####################by MSG SWARUPA######################
 
 def close():
     x = messagebox.askyesno("do you want to close this program?", "do you want to close this program?")
     if x == 1:
         exit()
 ##############################################makebuttonnormal##########################################
-####################by MSG SWARUPA######################
 
 def butnormal(buttonname):
     buttonname['state'] = NORMAL
 
 ##############################################mainwindow################################################
-####################by MSG SWARUPA######################
 
 def mainwindow():
     mainsplash.withdraw()
@@ -270,7 +257,6 @@ def mainwindow():
         label1.pack()
 
     ############################################mysqlpasswordcheck#####################################
-    ####################by MSG SWARUPA######################
 
     def passcheck():
         password=False
@@ -278,6 +264,7 @@ def mainwindow():
             with open("dnd.txt","r+") as x:
                 y = x.read()
                 y = decrypt(y)
+                print(y)
                 if y == "":
                     mysqlpassget()
                 elif y!="":
@@ -303,7 +290,6 @@ def mainwindow():
             break
     
     ###############################################mysqlpasswindow#####################################
-    ####################by MSG SWARUPA######################
 
     def mysqlpassget():
         main.withdraw()
@@ -356,11 +342,11 @@ def mainwindow():
         
         sql.mainloop()
     ##############################################connecttosql#########################################
-    ####################by MSG SWARUPA######################
     
     with open("dnd.txt","r+") as x:
         y = x.read()
         y = decrypt(y)
+        print(y)
         if y == "":
             mysqlpassget()
         try:
@@ -369,8 +355,6 @@ def mainwindow():
         except sequal.Error:
             mysqlpassget()
     ################################################createnewaccount###################################
-    ####################by MSG SWARUPA######################
-    
     def newacc():
         global acc
         acc = Toplevel()
@@ -451,7 +435,6 @@ def mainwindow():
         checkshow.place(x=267, y=391)
 
         #############################################savenewaccount#####################################
-        ####################by MSG SWARUPA######################
         
         def saveacc():
             if adminpassentry.get() == confirmadminpassentry.get() == "":
@@ -478,7 +461,9 @@ def mainwindow():
                 if l==False:
                     acc.destroy()
             
-            elif len(institution_entry.get()) != 0 and len(branch_entry.get()) != 0 and len(adminpassentry.get())!= 0 and len(confirmadminpassentry.get())!= 0 and len(teacherpassentry.get())!= 0 and len(confirmteacherpassentry.get()) != 0 and adminpassentry.get() == confirmadminpassentry.get() and  teacherpassentry.get() == confirmteacherpassentry.get():
+            elif len(institution_entry.get()) != 0 and len(branch_entry.get()) != 0 and len(adminpassentry.get())!= 0 \
+            and len(confirmadminpassentry.get())!= 0 and len(teacherpassentry.get())!= 0 and len(confirmteacherpassentry.get()) != 0 \
+            and adminpassentry.get() == confirmadminpassentry.get() and  teacherpassentry.get() == confirmteacherpassentry.get():
                 cur.execute("SHOW SCHEMAS;")
                 databases = []
                 for i in cur:
@@ -498,10 +483,11 @@ def mainwindow():
                     tables.extend(i)
 
                 cur.execute("USE {};".format(databasename))
-                cur.execute("CREATE TABLE if not exists accounts(institution varchar(20),branch varchar(20),adminpass varchar(20),teacherpass varchar(20));")
-                cur.execute(
-                    "INSERT INTO accounts(institution,branch,adminpass,teacherpass) VALUES('{}','{}','{}','{}');".format(str(institution_entry.get())
-                                                                                        , str(branch_entry.get()),encrypt(adminpassentry.get()),encrypt(teacherpassentry.get())))
+                cur.execute("CREATE TABLE if not exists accounts(institution varchar(20)\
+                ,branch varchar(20),adminpass varchar(20),teacherpass varchar(20));")
+                cur.execute("INSERT INTO accounts(institution,branch,adminpass,teacherpass)\
+                VALUES('{}','{}','{}','{}');".format(str(institution_entry.get()),str(branch_entry.get())\
+                ,encrypt(adminpassentry.get()),encrypt(teacherpassentry.get())))
                 db.commit()
                 
                 messagebox.showinfo("account", "successfully created the account.")
@@ -510,18 +496,17 @@ def mainwindow():
                 main.destroy()
                 os.system('python main.py')
 
-        save = ttk.Button(acc, text="Save", width=14,
+        save = ttk.Button(acc, text="Save", width=12,
                           command=lambda: [saveacc()])
         save.place(x=120, y=434)
 
-        closebut = ttk.Button(acc, text="Close", width=14,
+        closebut = ttk.Button(acc, text="Close", width=12,
                           command=lambda: [acc.destroy(),admin.deiconify()])
         closebut.place(x=280, y=434)
 
         acc.mainloop()
 
     ##################################################getaccounts#######################################
-    ####################by MSG SWARUPA######################
     
     def getaccounts():
         try:
@@ -540,7 +525,6 @@ def mainwindow():
             teacher.deiconify()
 
     #####################################attendanceregistersplashscreen#################################
-    ####################by MSG SWARUPA######################
     
     def rootsplash():
         root_splash = Toplevel()
@@ -564,7 +548,6 @@ def mainwindow():
             label.place(x=0, y=0)
         
         ###########################################attendanceregisterwindow##############################
-        ####################by MSG SWARUPA######################
         
         def rootwindow():
             global root
@@ -593,7 +576,6 @@ def mainwindow():
                 label.place(x=0, y=0)
 
             ####################################creatingtablesforattendance############################
-            ####################by MSG SWARUPA######################
 
             def createattendancetables():
                 global allclasssection
@@ -651,7 +633,8 @@ def mainwindow():
                                 "17th varchar(2) DEFAULT '',18th varchar(2) DEFAULT '',19th varchar(2) DEFAULT '',"
                                 "20th varchar(2) DEFAULT '',21st varchar(2) DEFAULT '',22nd varchar(2) DEFAULT '',"
                                 "23rd varchar(2) DEFAULT '',24th varchar(2) DEFAULT '',25th varchar(2) DEFAULT '',"
-                                "26th varchar(2) DEFAULT '',27th varchar(2) DEFAULT '',28th varchar(2) DEFAULT '',workingdays varchar(3),attended varchar(3),attendancepercentage varchar(10));".format(i))
+                                "26th varchar(2) DEFAULT '',27th varchar(2) DEFAULT '',28th varchar(2) DEFAULT '',\
+                                workingdays varchar(3),attended varchar(3),attendancepercentage varchar(10));".format(i))
                             if leapcheck==True:
                                 cur.execute(
                                 "CREATE TABLE if not exists {}(rollno varchar(50),studentname varchar(50),1st varchar(2) "
@@ -663,9 +646,12 @@ def mainwindow():
                                 "17th varchar(2) DEFAULT '',18th varchar(2) DEFAULT '',19th varchar(2) DEFAULT '',"
                                 "20th varchar(2) DEFAULT '',21st varchar(2) DEFAULT '',22nd varchar(2) DEFAULT '',"
                                 "23rd varchar(2) DEFAULT '',24th varchar(2) DEFAULT '',25th varchar(2) DEFAULT '',"
-                                "26th varchar(2) DEFAULT '',27th varchar(2) DEFAULT '',28th varchar(2) DEFAULT '',29th varchar(2) DEFAULT '',workingdays varchar(3),attended varchar(3) ,attendancepercentage varchar(10) );".format(i))
+                                "26th varchar(2) DEFAULT '',27th varchar(2) DEFAULT '',28th varchar(2) DEFAULT '',\
+                                29th varchar(2) DEFAULT '',workingdays varchar(3),attended varchar(3) ,attendancepercentage varchar(10) );".format(i))
 
-                        elif monthvalue[4:20] == "January" or monthvalue[4:20] == "March" or  monthvalue[4:20] == "May" or  monthvalue[4:20] == "July" or  monthvalue[4:20] == "August" or  monthvalue[4:20] == "October" or  monthvalue[4:20] == "December":
+                        elif monthvalue[4:20] == "January" or monthvalue[4:20] == "March" or  monthvalue[4:20] == "May" or  \
+                            monthvalue[4:20] == "July" or  monthvalue[4:20] == "August" or  monthvalue[4:20] == "October" or  monthvalue[4:20] == "December":
+                            
                             cur.execute(
                                 "CREATE TABLE if not exists {}(rollno varchar(50),studentname varchar(50),1st varchar(2) "
                                 "DEFAULT '',2nd varchar(2) DEFAULT '',3rd varchar(2) DEFAULT '',4th varchar(2) DEFAULT "
@@ -677,7 +663,8 @@ def mainwindow():
                                 "20th varchar(2) DEFAULT '',21st varchar(2) DEFAULT '',22nd varchar(2) DEFAULT '',"
                                 "23rd varchar(2) DEFAULT '',24th varchar(2) DEFAULT '',25th varchar(2) DEFAULT '',"
                                 "26th varchar(2) DEFAULT '',27th varchar(2) DEFAULT '',28th varchar(2) DEFAULT '',"
-                                "29th varchar(2) DEFAULT '',30th varchar(2) DEFAULT '',31st varchar(2) DEFAULT '',workingdays varchar(3) ,attended varchar(3),attendancepercentage varchar(10));".format(i))
+                                "29th varchar(2) DEFAULT '',30th varchar(2) DEFAULT '',31st varchar(2) DEFAULT '',\
+                                workingdays varchar(3) ,attended varchar(3),attendancepercentage varchar(10));".format(i))
                         elif  monthvalue[4:20] == "April" or  monthvalue[4:20] == "June" or  monthvalue[4:20] == "September" or  monthvalue[4:20] == "November":
                             cur.execute(
                                 "CREATE TABLE if not exists {}(rollno varchar(50),studentname varchar(50),1st varchar(2) "
@@ -690,9 +677,9 @@ def mainwindow():
                                 "20th varchar(2) DEFAULT '',21st varchar(2) DEFAULT '',22nd varchar(2) DEFAULT '',"
                                 "23rd varchar(2) DEFAULT '',24th varchar(2) DEFAULT '',25th varchar(2) DEFAULT '',"
                                 "26th varchar(2) DEFAULT '',27th varchar(2) DEFAULT '',28th varchar(2) DEFAULT '',"
-                                "29th varchar(2) DEFAULT '',30th varchar(2) DEFAULT '',workingdays varchar(3),attended varchar(3),attendancepercentage varchar(10));".format(i))
+                                "29th varchar(2) DEFAULT '',30th varchar(2) DEFAULT '',\
+                                workingdays varchar(3),attended varchar(3),attendancepercentage varchar(10));".format(i))
             ############################getclassesandsectionfortablecreation###########################
-            ####################by MSG SWARUPA######################
             
             def getclass():
                 global allclasssection
@@ -718,7 +705,6 @@ def mainwindow():
                 except FileNotFoundError:
                     messagebox.showinfo("invalid selection", "INVALID SELECTION.NO DATABASE FOUND IN THE SELECTED BATCH.please create a database and try again.")
                     root.deiconify()
-
                     
             global batchbox, monthbox
             
@@ -762,8 +748,6 @@ def mainwindow():
         root_splash.after(3000, rootwindow)
         root_splash.mainloop()
     #########################################defaultadminpasswindow######################################
-    ####################by MSG SWARUPA######################
-    
     def adminpass():
         if len(inaccounts)==1:
             global adminp
@@ -782,11 +766,11 @@ def mainwindow():
             adminp.geometry(f'{app_width}x{app_height}+{int(x)}+{int(y)}')
 
             if mode == "light":
-                bg_image = ImageTk.PhotoImage(Image.open(r"images\mysqlpass light.png"))
+                bg_image = ImageTk.PhotoImage(Image.open(r"images\adpasslight.png"))
                 label1 = Label(adminp, image=bg_image)
                 label1.pack()
             elif mode == "dark":
-                bg_image = ImageTk.PhotoImage(Image.open(r"images\mysqlpass dark.png"))
+                bg_image = ImageTk.PhotoImage(Image.open(r"images\adpass dark.png"))
                 label1 = Label(adminp, image=bg_image)
                 label1.pack()
 
@@ -819,13 +803,11 @@ def mainwindow():
                                         command=lambda: [show(mypass, admpass)])
             checkshow.place(x=310, y=150)
 
-            save_button = ttk.Button(adminp, text="Proceed", padding=10, command=lambda: [checkpass()])
+            save_button = ttk.Button(adminp, text="Proceed", padding=8, command=lambda: [checkpass()])
             save_button.place(x=220, y=180)
             
             adminp.mainloop()
         ################################actualadminpassentrywindow#########################################  
-        ####################by MSG SWARUPA######################
-        
         if len(inaccounts)!=1:  
             adminp = Toplevel()
             adminp.protocol("WM_DELETE_WINDOW",lambda:[main.deiconify(),adminp.destroy()])
@@ -888,13 +870,11 @@ def mainwindow():
                                         command=lambda: [show(mypass, admpass)])
             checkshow.place(x=310, y=150)
 
-            save_button = ttk.Button(adminp, text="Proceed", padding=10, command=lambda: [checkpass()])
+            save_button = ttk.Button(adminp, text="Proceed", padding=8, command=lambda: [checkpass()])
             save_button.place(x=220, y=180)
             
             adminp.mainloop()
     ###################################################adminwindow######################################
-    ####################by MSG SWARUPA######################
-    
     def adminwindow():
         global admin
         admin = Toplevel()
@@ -920,20 +900,18 @@ def mainwindow():
             label1 = Label(admin, image=bg_image)
             label1.pack()
 
-        new_button = ttk.Button(admin, text="New account", width=18, padding=10, command=lambda: [admin.withdraw(),newacc()])
+        new_button = ttk.Button(admin, text="New account", width=16, padding=8, command=lambda: [admin.withdraw(),newacc()])
         new_button.place(x=179, y=49)
 
-        manage_button = ttk.Button(admin, text="MANAGE", width=18, padding=10,
+        manage_button = ttk.Button(admin, text="MANAGE", width=16, padding=8,
                                command=lambda: [admin.withdraw(),manage_data()])
         manage_button.place(x=179, y=105)
 
-        exit_button = ttk.Button(admin, text="BACK", width=18, padding=10, command=lambda:[admin.destroy(),main.deiconify()])
+        exit_button = ttk.Button(admin, text="BACK", width=16, padding=8, command=lambda:[admin.destroy(),main.deiconify()])
         exit_button.place(x=179, y=162)
 
         admin.mainloop()
     #############################################teacherpasswordentrywindow##############################
-    ####################by MSG SWARUPA######################
-    
     def teacherpass():
         if len(inaccounts)==1:
             messageb=messagebox.askretrycancel("create account to continue","no account detected.please create one to continue.")
@@ -1000,13 +978,11 @@ def mainwindow():
                                         command=lambda: [show(mypass, teacherpass)])
             checkshow.place(x=310, y=150)
 
-            save_button = ttk.Button(teacherx, text="Proceed", padding=10, command=lambda: [checkpass()])
+            save_button = ttk.Button(teacherx, text="Proceed", padding=8, command=lambda: [checkpass()])
             save_button.place(x=220, y=180)
             
             teacherx.mainloop()
     ##############################################teacherwindow###########################################
-    ####################by MSG SWARUPA######################
-    
     def teacherwindow():
         global teacher
         teacher = Toplevel()
@@ -1032,11 +1008,11 @@ def mainwindow():
             label1 = Label(teacher, image=bg_image)
             label1.pack()
 
-        attendanceregbutton = ttk.Button(teacher, text="Attendance Register", width=18, padding=10,
+        attendanceregbutton = ttk.Button(teacher, text="Attendance Register", width=16, padding=8,
                                         command=lambda: [teacher.withdraw(),getaccounts(),rootsplash()])
         attendanceregbutton.place(x=179, y=77)
 
-        exit_button = ttk.Button(teacher, text="BACK", width=18, padding=10, command=lambda:[teacher.destroy(),main.deiconify()])
+        exit_button = ttk.Button(teacher, text="BACK", width=16, padding=8, command=lambda:[teacher.destroy(),main.deiconify()])
         exit_button.place(x=179, y=135)
 
         teacher.mainloop()
@@ -1059,20 +1035,20 @@ def mainwindow():
     global institutionsel
     global branchsel
 
-    institutionsel = ttk.Combobox(main, values=inaccounts,width=16)
-    branchsel = ttk.Combobox(main, values=braccounts,width=16)
-    institutionsel.place(x=177,y=59)
-    branchsel.place(x=177,y=102)
+    institutionsel = ttk.Combobox(main, values=inaccounts,width=17)
+    branchsel = ttk.Combobox(main, values=braccounts,width=17)
+    institutionsel.place(x=180,y=62)
+    branchsel.place(x=180,y=105)
     institutionsel.current(0)
-    branchsel.current(0)
+    branchsel.current(0) 
 
-    adminbutton=ttk.Button(main, text="ADMIN", width=18, padding=10, command=lambda: [main.withdraw(),adminpass(),adminwindow()])
+    adminbutton=ttk.Button(main, text="ADMIN", width=16, padding=8, command=lambda: [main.withdraw(),adminpass(),adminwindow()])
     adminbutton.place(x=179, y=149)
 
-    teacherbutton=ttk.Button(main, text="TEACHER", width=18, padding=10, command=lambda: [main.withdraw(),teacherpass()])
+    teacherbutton=ttk.Button(main, text="TEACHER", width=16, padding=8, command=lambda: [main.withdraw(),teacherpass()])
     teacherbutton.place(x=179, y=210)
 
-    exit_button = ttk.Button(main, text="EXIT", width=18, padding=10, command=lambda: close())
+    exit_button = ttk.Button(main, text="EXIT", width=16, padding=8, command=lambda: close())
     exit_button.place(x=179, y=272)
 
     if mode == "light":
@@ -1087,8 +1063,6 @@ def mainwindow():
     setting_button.place(x=445, y=30)
 
     ##############################################managewindow##########################################
-    ####################by MSG SWARUPA######################
-    
     def manage_data():
         global manage
         manage = Toplevel()
@@ -1137,8 +1111,6 @@ def mainwindow():
                 v=messagebox.askokcancel("no class and section selected.","select class and section and save to create database.")
                 manage.deiconify()
         ##########################################studdetailstorage#####################################
-        ####################by MSG SWARUPA######################
-        
         def save():
             global allclasssection
             ins = institutionsel.get()
@@ -1172,14 +1144,16 @@ def mainwindow():
                 cur.execute("USE {};".format(dbname))
                 for i in allclasssection:
                     cur.execute(
-                        "CREATE TABLE if not exists {}(rollno varchar(50),studentname varchar(50),admno varchar(50),batch varchar(50),parentemail varchar(50),class varchar(50),classteacher varchar(50));".format(
-                            i))
+                        "CREATE TABLE if not exists {}(rollno varchar(50),studentname varchar(50),admno varchar(50),\
+                        batch varchar(50),parentemail varchar(50),class varchar(50),classteacher varchar(50));"\
+                        .format(i))
             else:
                 cur.execute("USE {};".format(dbname))
                 for i in allclasssection:
                     cur.execute(
-                        "CREATE TABLE if not exists {}(rollno varchar(50),studentname varchar(50),admno varchar(50),batch varchar(50),parentemail varchar(50),class varchar(50),classteacher varchar(50));".format(
-                            i))
+                        "CREATE TABLE if not exists {}(rollno varchar(50),studentname varchar(50),admno varchar(50),\
+                        batch varchar(50),parentemail varchar(50),class varchar(50),classteacher varchar(50));"\
+                        .format(i))
         try:
             cur.execute(" USE {} ;".format("sms"))
             cur.execute("select institution from accounts;")
@@ -1198,8 +1172,6 @@ def mainwindow():
             x=messagebox.askokcancel("account not created.","create account in order to proceed.")
             manage.deicontify
         #################################nobatchselcheck#################################################
-        ####################by MSG SWARUPA######################
-        
         def chkbatch():
             if batchsel.get()=="":
                 x=messagebox.showinfo("no batch selected.","please select batch to proceed")
@@ -1208,15 +1180,15 @@ def mainwindow():
                 sel_cl()    
 
         global batchsel
-        batchsel = ttk.Combobox(manage, values=batches)
+        batchsel = ttk.Combobox(manage,width=22, values=batches)
 
-        select_class = ttk.Button(manage, text="Select", width=22, command=lambda:[manage.withdraw() ,chkbatch()])
+        select_class = ttk.Button(manage, text="Select", width=20, command=lambda:[manage.withdraw() ,chkbatch()])
 
         global select_sec
-        select_sec = ttk.Button(manage, text="Select", width=22,state=DISABLED,command=lambda:[manage.withdraw(), sel_sec()])
+        select_sec = ttk.Button(manage, text="Select", width=20,state=DISABLED,command=lambda:[manage.withdraw(), sel_sec()])
 
         global studentinfo
-        studentinfo = ttk.Button(manage, text="Select", width=22, command=lambda: [manage.withdraw(),getclasses()])
+        studentinfo = ttk.Button(manage, text="Select", width=20, command=lambda: [manage.withdraw(),getclasses()])
 
         batchsel.place(x=440, y=130)
 
@@ -1226,16 +1198,14 @@ def mainwindow():
 
         studentinfo.place(x=442, y=380)
 
-        save_button = ttk.Button(manage, text="Save", width=15, command=lambda: [save()])
+        save_button = ttk.Button(manage, text="Save", width=13, command=lambda: [save()])
         save_button.place(x=320, y=323)
 
-        back = ttk.Button(manage, text="Close", width=15, command=lambda: [manage.destroy(),admin.deiconify()])
+        back = ttk.Button(manage, text="Close", width=13, command=lambda: [manage.destroy(),admin.deiconify()])
         back.place(x=320, y=425)
 
         manage.mainloop()
     ############################################selectclasseswindow#####################################
-    ####################by MSG SWARUPA######################
-    
     def sel_cl():
         def clicking_check():
             ins = institutionsel.get()
@@ -1385,7 +1355,7 @@ def mainwindow():
         third_yr_check = ttk.Checkbutton(cl, variable=third_yr)
         fourth_yr_check = ttk.Checkbutton(cl, variable=fourth_yr)
         
-        save_button = ttk.Button(cl, text="Save", width=18, command=lambda: [butnormal(select_sec), cl.destroy(),manage.deiconify()])
+        save_button = ttk.Button(cl, text="Save", width=16, command=lambda: [butnormal(select_sec), cl.destroy(),manage.deiconify()])
 
         info.place(x=470, y=115)
         mont1check.place(x=220, y=182)
@@ -1419,8 +1389,6 @@ def mainwindow():
 
         cl.mainloop()
     ###############################################selectsectionswindow#################################
-    ####################by MSG SWARUPA######################
-    
     def sel_sec():
         def clicking_check():
             ins = institutionsel.get()
@@ -1579,7 +1547,7 @@ def mainwindow():
                    "18", "19",
                    "20", "21", "22", "23", "24", "25", "26"]
 
-        global mont1sections
+        global mont1sections                                                                                                       
         global mont2sections
         global mont3sections
         global std1sections
@@ -1688,7 +1656,7 @@ def mainwindow():
                     x.write(m2sec)
 
                 if int(m3sec) > 10:
-                    x.write(m3sec)
+                    x.write(m3sec)                                                                                    
                 elif -1 < int(m3sec) < 10:
                     x.write("0" + m3sec)
                 elif int(m3sec) == -1:
@@ -1788,7 +1756,7 @@ def mainwindow():
                 if int(c2sec) > 10:
                     x.write(c2sec)
                 elif -1 < int(c2sec) < 10:
-                    x.write("0" + c2sec)
+                    x.write("0" + c2sec)                                                                  
                 elif int(c2sec) == -1:
                     x.write(c2sec)
 
@@ -1889,7 +1857,7 @@ def mainwindow():
                     for i in sections[0:26]:
                         y.append(i)
 
-            addsections(m1sec, mont1sec)
+            addsections(m1sec, mont1sec)                                                                       
             addsections(m2sec, mont2sec)
             addsections(m3sec, mont3sec)
             addsections(s1sec, std1sec)
@@ -2019,7 +1987,7 @@ def mainwindow():
         third_yr_label = ttk.Label(sec, text="3rdyr")
         fourth_yr_label = ttk.Label(sec, text="4thyr")
 
-        save_button = ttk.Button(sec, text="Save", width=18,
+        save_button = ttk.Button(sec, text="Save", width=16,
                                  command=lambda: [butnormal(studentinfo), save(), sec.destroy() ,manage.deiconify()])
 
         a = 40
@@ -2131,8 +2099,6 @@ def mainwindow():
 
         sec.mainloop()
     #######################################addstudentdetailswindow######################################
-    ####################by MSG SWARUPA######################
-
     def addstudents():
         global stud
         stud = Toplevel()
@@ -2152,8 +2118,6 @@ def mainwindow():
             label1 = Label(stud, image=bg_image)
             label1.pack()
         #####################################fetcholdstuddetail########################################
-        ####################by MSG SWARUPA######################
-
         def fetchdata():
             global count
             ins = institutionsel.get()
@@ -2194,8 +2158,6 @@ def mainwindow():
                 messagebox.showinfo("no database created.","please create a batch to add students.")
                 stud.destroy()
         #####################################difftableforeachclass######################################
-        ####################by MSG SWARUPA######################
-
         def difftree():
             classx = classsec.get()
             treeframe = classx + "frame"
@@ -2213,8 +2175,6 @@ def mainwindow():
             treescroll.config(command=tree.yview)
 
             ###########################################savedetails######################################
-            ####################by MSG SWARUPA######################
-            
             def savefn():
                 def clear_all():
                     for item in tree.get_children():
@@ -2255,8 +2215,6 @@ def mainwindow():
                 pemail.delete(0, END)
                 
             ################################################deletedetails################################
-            ####################by MSG SWARUPA######################
-            
             def deletefn():
                 def clear_all():
                     for item in tree.get_children():
@@ -2289,17 +2247,12 @@ def mainwindow():
                 fetchdata()
 
             ############################################clearwidgets####################################
-            ####################by MSG SWARUPA######################
-            
             def clearfn():
                 rl.set('')
                 studentname.delete(0, END)
                 admno.delete(0, END)
                 pemail.delete(0, END)
-
             ############################################selectrecords#######################################
-            ####################by MSG SWARUPA######################
-            
             def select_record():
                 rl.set('')
                 classteacher.delete(0, END)
@@ -2315,10 +2268,7 @@ def mainwindow():
                 studentname.insert(0, values[1])
                 admno.insert(0, values[2])
                 pemail.insert(0, values[4])
-
             ############################################updateexistingdata################################
-            ####################by MSG SWARUPA######################
-            
             def update_record():
                 def clear_all():
                     for item in tree.get_children():
@@ -2384,16 +2334,16 @@ def mainwindow():
 
             tree.bind('<Double-1>', clicker)
 
-            save = ttk.Button(stud, text="SAVE", width=14, command=lambda: savefn())
+            save = ttk.Button(stud, text="SAVE", width=12, command=lambda: savefn())
             save.place(x=1133, y=80)
 
-            clear = ttk.Button(stud, text="CLEAR", width=14, command=lambda: clearfn())
+            clear = ttk.Button(stud, text="CLEAR", width=12, command=lambda: clearfn())
             clear.place(x=1130, y=149)
 
-            update = ttk.Button(stud, text="UPDATE", width=14, command=lambda: update_record())
+            update = ttk.Button(stud, text="UPDATE", width=12, command=lambda: update_record())
             update.place(x=1133, y=218)
 
-            delete = ttk.Button(stud, text="DELETE", width=14, command=lambda: deletefn())
+            delete = ttk.Button(stud, text="DELETE", width=12, command=lambda: deletefn())
             delete.place(x=1130, y=287)
 
         classsec = ttk.Combobox(stud, values=allclasssection)
@@ -2404,32 +2354,30 @@ def mainwindow():
                 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54,
                 55, 56, 57, 58, 59, 60]
 
-        classteacher = ttk.Entry(stud, width=24)
+        classteacher = ttk.Entry(stud, width=26)
         classteacher.place(x=781, y=85)
 
         global r1
-        rl = ttk.Combobox(stud, values=roll, width=18)
+        rl = ttk.Combobox(stud, values=roll, width=20)
         rl.place(x=508, y=548)
 
-        studentname = ttk.Entry(stud, width=22)
+        studentname = ttk.Entry(stud, width=24)
         studentname.place(x=822, y=548)
 
-        admno = ttk.Entry(stud, width=22)
+        admno = ttk.Entry(stud, width=24)
         admno.place(x=508, y=600)
 
-        pemail = ttk.Entry(stud, width=22)
+        pemail = ttk.Entry(stud, width=24)
         pemail.place(x=508, y=652)
 
         refresh = ttk.Button(stud, text="REFRESH TABLE", command=lambda: ([difftree(), fetchdata()]))
         refresh.place(x=570, y=85)
 
-        exit = ttk.Button(stud, text="EXIT", width=14, command=lambda: [stud.destroy(),manage.deiconify()])
+        exit = ttk.Button(stud, text="EXIT", width=12, command=lambda: [stud.destroy(),manage.deiconify()])
         exit.place(x=1133, y=356)
 
         stud.mainloop()
     #######################################manualforattendancereg#######################################
-    ####################by MSG SWARUPA######################
-    
     def manual():
         man = Toplevel(main)
         man.tk.call('wm', 'iconphoto', man._w, ImageTk.PhotoImage(file='images\SMS.ico'))
@@ -2448,8 +2396,6 @@ def mainwindow():
 
         man.mainloop()
     ############################################attendanceentrywindow#######################################
-    ####################by MSG SWARUPA######################
-    
     def root2():
         root_2 = Toplevel()
         root_2.protocol("WM_DELETE_WINDOW",lambda:[root.deiconify(),root_2.destroy()])
@@ -2471,8 +2417,6 @@ def mainwindow():
             label1 = Label(root_2, image=bg_image)
             label1.pack()
         ##########################################refreshattendancedatabase###############################
-        ####################by MSG SWARUPA######################
-        
         def attlistfn():
             def clear_all():
                     for item in tree2.get_children():
@@ -2490,7 +2434,7 @@ def mainwindow():
             studscrollname = classsel+ "studscroll"
 
             studframename = Frame(root_2)
-            studframename.place(x=1060, y=130)
+            studframename.place(x=1072, y=130)
             studframename.grid_rowconfigure(0, weight=1)
             studframename.grid_columnconfigure(0, weight=1)
             studframename.grid_propagate(0)
@@ -2550,8 +2494,6 @@ def mainwindow():
             studframename.config(width=260,height=450)
 
             ##########################################saveattendance########################################
-            ####################by MSG SWARUPA######################
-
             def savefn():
                 def clear_all():
                     for item in tree2.get_children():
@@ -2595,7 +2537,10 @@ def mainwindow():
                 dbname = dbname2.replace(y, "")
 
             cur.execute("use {};".format(dbname2))
-            cur.execute("select rollno from {};".format(classsel))
+            try:
+                cur.execute("select rollno from {};".format(classsel))
+            except sequal.ProgrammingError:
+                messagebox.askokcancel("empty data in table.", " admin must add students in order to add attendance.")
             data4 = cur.fetchall()
             global lst4
             lst4 = []
@@ -2666,8 +2611,6 @@ def mainwindow():
             yr=month[0:4]
             
             #######################################getsundays###########################################
-            ####################by MSG SWARUPA######################
-            
             def allsundays(year):
                 d = date(int(year), 1, 1)     
                 d += timedelta(days = 6 - d.weekday())
@@ -2774,7 +2717,7 @@ def mainwindow():
 
             elif mon=="Febraury":
                 for i in yrfebraurysundays:
-                    if i[8:10]=="01":
+                    if i[8:10]=="01":                                                                               
                         dates.append("1st")
                     elif i[8:10]=="02":
                         dates.append("2nd")
@@ -2788,7 +2731,7 @@ def mainwindow():
                         dates.append("6th")
                     elif i[8:10]=="07":
                         dates.append("7th")
-                    elif i[8:10]=="08":
+                    elif i[8:10]=="08":                                                                     
                         dates.append("8th")
                     elif i[8:10]=="09":
                         dates.append("9th")
@@ -2888,7 +2831,7 @@ def mainwindow():
                     elif i[8:10]=="24":
                         dates.append("24th")
                     elif i[8:10]=="25":
-                        dates.append("25th")
+                        dates.append("25th")                                                                                                            
                     elif i[8:10]=="26":
                         dates.append("26th")
                     elif i[8:10]=="27":
@@ -2988,7 +2931,7 @@ def mainwindow():
                     elif i[8:10]=="09":
                         dates.append("9th")
                     elif i[8:10]=="10":
-                        dates.append("10th")
+                        dates.append("10th")                                                                            
                     elif i[8:10]=="11":
                         dates.append("11th")
                     elif i[8:10]=="12":
@@ -3088,7 +3031,7 @@ def mainwindow():
                         dates.append("26th")
                     elif i[8:10]=="27":
                         dates.append("27th")
-                    elif i[8:10]=="28":
+                    elif i[8:10]=="28":                                                                         
                         dates.append("28th")
                     elif i[8:10]=="29":
                         dates.append("29th")
@@ -3287,8 +3230,8 @@ def mainwindow():
                         dates.append("28th")
                     elif i[8:10]=="29":
                         dates.append("29th")
-                    elif i[8:10]=="30":
-                        dates.append("30th")
+                    elif i[8:10]=="30":                                                                                             
+                        dates.append("30th")                                                                                    
                     elif i[8:10]=="31":
                         dates.append("31st")
 
@@ -3388,7 +3331,7 @@ def mainwindow():
                     elif i[8:10]=="14":
                         dates.append("14th")
                     elif i[8:10]=="15":
-                        dates.append("15th")
+                        dates.append("15th")                                                                        
                     elif i[8:10]=="16":
                         dates.append("16th")
                     elif i[8:10]=="17":
@@ -3488,16 +3431,12 @@ def mainwindow():
                         dates.append("31st")
 
             ##################################-onallsundays##############################################
-            ####################by MSG SWARUPA######################
-            
             for i in dates:
                 cur.execute("use {};".format(dbname2))
                 cur.execute("update {} set {}='-';".format(classsel,i))
             db.commit()
 
             #################################getrollstudnamefromothertable###############################
-            ####################by MSG SWARUPA######################
-            
             global count
 
             classx = int(class_box.current())
@@ -3511,8 +3450,6 @@ def mainwindow():
             for rows in data:
                 lstt.append(rows)
             ####################################leapcheck###############################################
-            ####################by MSG SWARUPA######################
-            
             yrsel=month[0:4]
             leapcheck=False
             if((int(yrsel) % 400 == 0) or  (int(yrsel) % 100 != 0) and (int(yrsel) % 4 == 0)):
@@ -3538,7 +3475,8 @@ def mainwindow():
                         counter = count + 1
                         count = counter
 
-                elif month[4:20] == "January" or month[4:20] == "March" or  month[4:20] == "May" or  month[4:20] == "July" or  month[4:20] == "August" or  month[4:20]== "October" or  month[4:20] == "December":
+                elif month[4:20] == "January" or month[4:20] == "March" or  month[4:20] == "May" or  month[4:20] == "July" or  \
+                month[4:20] == "August" or  month[4:20]== "October" or  month[4:20] == "December":
                     tree2.insert(parent='', index="end", iid=count, text="",
                                 values=(
                                 i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9], i[10], i[11], i[12], i[13],
@@ -3557,8 +3495,6 @@ def mainwindow():
                     count = counter
 
         ####################################diffattendancetablefordiffclass##############################
-        ####################by MSG SWARUPA######################
-        
         def difftree():
 
             classx = int(class_box.current())
@@ -3571,7 +3507,7 @@ def mainwindow():
 
             tree2 = classsel + "tree"
             treeframe = ttk.Frame(root_2)
-            treeframe.place(x=20, y=105)
+            treeframe.place(x=24, y=150)
 
             treescroll = ttk.Scrollbar(treeframe)
             treescroll.pack(side=RIGHT, fill=Y)
@@ -3583,7 +3519,7 @@ def mainwindow():
             classsel = allclasssection[classx]
 
             def clicker(e):
-                select_record()
+                pass
 
             month=monthbox.get()
             yrsel=month[0:4]
@@ -3738,7 +3674,8 @@ def mainwindow():
                     tree2.pack()
                     tree2.bind('<Double-1>', clicker)
 
-            elif month[4:20] == "January" or month[4:20] == "March" or  month[4:20] == "May" or  month[4:20] == "July" or  month[4:20] == "August" or  month[4:20] == "October" or  month[4:20] == "December":
+            elif month[4:20] == "January" or month[4:20] == "March" or  month[4:20] == "May" or  month[4:20] == "July" or  \
+            month[4:20] == "August" or  month[4:20] == "October" or  month[4:20] == "December":
                 tree2['columns'] = (
                     "ROLL NO", "STUDENT NAME", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14",
                     "15",
@@ -3892,14 +3829,10 @@ def mainwindow():
                 tree2.bind('<Double-1>', clicker)
 
         ##############################################excelfilecreateadddata#####################################
-        ####################by MSG SWARUPA######################
-        
         def writetocsv():
             classx = int(class_box.current())
             classsel = allclasssection[classx]
             #######################################################attendance working days,present,percentage###############################################
-            ####################by MSG SWARUPA######################
-
             month=monthbox.get()
             yrsel=month[0:4]
             
@@ -3917,7 +3850,8 @@ def mainwindow():
             if month[4:20] == "Febraury":
                 if leapcheck==False:
                     cur.execute("use {};".format(dbname2))
-                    cur.execute("select 1st,2nd,3rd,4th,5th,6th,7th,8th,9th,10th,11th,12th,13th,14th,15th,16th,17th,18th,19th,20th,21st,22nd,23rd,24th,25th,26th,27th,28th from {};".format(classsel))
+                    cur.execute("select 1st,2nd,3rd,4th,5th,6th,7th,8th,9th,10th,11th,12th,13th,14th,15th,16th,17th,18th,\
+                    19th,20th,21st,22nd,23rd,24th,25th,26th,27th,28th from {};".format(classsel))
                     vals=cur.fetchall()
                     for i in vals:
                         for j in i:
@@ -3981,7 +3915,8 @@ def mainwindow():
 
                 elif leapcheck==True:
                     cur.execute("use {};".format(dbname2))
-                    cur.execute("select 1st,2nd,3rd,4th,5th,6th,7th,8th,9th,10th,11th,12th,13th,14th,15th,16th,17th,18th,19th,20th,21st,22nd,23rd,24th,25th,26th,27th,28th,29th from {};".format(classsel))
+                    cur.execute("select 1st,2nd,3rd,4th,5th,6th,7th,8th,9th,10th,11th,12th,13th,14th,15th,16th,17th,18th,19th,20th,\
+                    21st,22nd,23rd,24th,25th,26th,27th,28th,29th from {};".format(classsel))
                     vals=cur.fetchall()
                     for i in vals:
                         for j in i:
@@ -4042,9 +3977,11 @@ def mainwindow():
                     perc=[]
                     rollperc=[]
 
-            elif month[4:20] == "January" or month[4:20] == "March" or  month[4:20] == "May" or  month[4:20] == "July" or  month[4:20] == "August" or  month[4:20] == "October" or  month[4:20] == "December":
+            elif month[4:20] == "January" or month[4:20] == "March" or  month[4:20] == "May" or  month[4:20] == "July" or  month[4:20] == "August" \
+                or  month[4:20] == "October" or  month[4:20] == "December":
                 cur.execute("use {};".format(dbname2))
-                cur.execute("select 1st,2nd,3rd,4th,5th,6th,7th,8th,9th,10th,11th,12th,13th,14th,15th,16th,17th,18th,19th,20th,21st,22nd,23rd,24th,25th,26th,27th,28th,29th,30th,31st from {};".format(classsel))
+                cur.execute("select 1st,2nd,3rd,4th,5th,6th,7th,8th,9th,10th,11th,12th,13th,14th,15th,16th,17th,18th,19th,20th,21st,22nd,23rd,24th,25th,\
+                26th,27th,28th,29th,30th,31st from {};".format(classsel))
                 vals=cur.fetchall()
                 for i in vals:
                     for j in i:
@@ -4107,7 +4044,8 @@ def mainwindow():
 
             elif  month[4:20] == "April" or  month[4:20] == "June" or  month[4:20] == "September" or  month[4:20] == "November":
                 cur.execute("use {};".format(dbname2))
-                cur.execute("select 1st,2nd,3rd,4th,5th,6th,7th,8th,9th,10th,11th,12th,13th,14th,15th,16th,17th,18th,19th,20th,21st,22nd,23rd,24th,25th,26th,27th,28th,29th,30th from {};".format(classsel))
+                cur.execute("select 1st,2nd,3rd,4th,5th,6th,7th,8th,9th,10th,11th,12th,13th,14th,15th,16th,17th,18th,19th,20th,21st,22nd,\
+                23rd,24th,25th,26th,27th,28th,29th,30th from {};".format(classsel))
                 vals=cur.fetchall()
                 for i in vals:
                     for j in i:
@@ -4176,7 +4114,8 @@ def mainwindow():
             for i in y:
                 classn = classsel.replace(y, "")
             file=dbname2+classn
-            y=filedialog.asksaveasfilename(initialdir = 'HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders',initialfile = file
+            y=filedialog.asksaveasfilename(initialdir = 'HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders'\
+            ,initialfile = file
             ,defaultextension=".csv",title="Save as",filetypes=[("All Files","*.*"),("Excel file","*.csv")])
             
             if month[4:20] == "Febraury":
@@ -4184,7 +4123,9 @@ def mainwindow():
                     try:
                         with open(y,"w",newline='') as x:
                             y=csv.writer(x,dialect='excel')
-                            y.writerow(["Roll no", "Student name", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th", "13th", "14th", "15th","16th", "17th", "18th", "19th", "20th","21st", "22nd", "23rd", "24th", "25th", "26th", "27th", "28th", "workingdays", "attended", "attpercentage"])
+                            y.writerow(["Roll no", "Student name", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th",\
+                            "12th", "13th", "14th", "15th","16th", "17th", "18th", "19th", "20th","21st", "22nd", "23rd", "24th", "25th", "26th",\
+                            "27th", "28th", "workingdays", "attended", "attpercentage"])
                             for i in data:
                                 y.writerow(i)
                     
@@ -4194,18 +4135,23 @@ def mainwindow():
                     try:
                         with open(y,"w",newline='') as x:
                             y=csv.writer(x,dialect='excel')
-                            y.writerow(["Roll no", "Student name", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th", "13th", "14th", "15th","16th", "17th", "18th", "19th", "20th","21st", "22nd", "23rd", "24th", "25th", "26th", "27th", "28th", "29th", "workingdays", "attended", "attpercentage"])
+                            y.writerow(["Roll no", "Student name", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th",\
+                            "13th", "14th", "15th","16th", "17th", "18th", "19th", "20th","21st", "22nd", "23rd", "24th", "25th", "26th", "27th", "28th",\
+                            "29th", "workingdays", "attended", "attpercentage"])
                             for i in data:
                                 y.writerow(i)
                     
                     except FileNotFoundError:
                         pass
             
-            elif month[4:20] == "January" or month[4:20] == "March" or  month[4:20] == "May" or  month[4:20] == "July" or  month[4:20] == "August" or  month[4:20] == "October" or  month[4:20] == "December":
+            elif month[4:20] == "January" or month[4:20] == "March" or  month[4:20] == "May" or  month[4:20] == "July" or  month[4:20] == "August" or  \
+                month[4:20] == "October" or  month[4:20] == "December":
                 try:
                     with open(y,"w",newline='') as x:
                         y=csv.writer(x,dialect='excel')
-                        y.writerow(["Roll no", "Student name", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th", "13th", "14th", "15th","16th", "17th", "18th", "19th", "20th","21st", "22nd", "23rd", "24th", "25th", "26th", "27th", "28th", "29th", "30th", "31st", "workingdays", "attended", "attpercentage"])
+                        y.writerow(["Roll no", "Student name", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th", "13th",\
+                         "14th", "15th","16th", "17th", "18th", "19th", "20th","21st", "22nd", "23rd", "24th", "25th", "26th", "27th", "28th", "29th", "30th",\
+                        "31st", "workingdays", "attended", "attpercentage"])
                         for i in data:
                             y.writerow(i)
                 
@@ -4216,7 +4162,9 @@ def mainwindow():
                 try:
                     with open(y,"w",newline='') as x:
                         y=csv.writer(x,dialect='excel')
-                        y.writerow(["Roll no", "Student name", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th", "13th", "14th", "15th","16th", "17th", "18th", "19th", "20th","21st", "22nd", "23rd", "24th", "25th", "26th", "27th", "28th", "29th", "30th", "workingdays", "attended", "attpercentage"])
+                        y.writerow(["Roll no", "Student name", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th", "13th",\
+                         "14th", "15th","16th", "17th", "18th", "19th", "20th","21st", "22nd", "23rd", "24th", "25th", "26th", "27th", "28th", "29th", "30th", \
+                        "workingdays", "attended", "attpercentage"])
                         for i in data:
                             y.writerow(i)
                 
@@ -4224,8 +4172,6 @@ def mainwindow():
                     pass
         
         #############################################addholidayinattendance#############################
-        ####################by MSG SWARUPA######################
-
         def holiday():
             def clear_all():
                 for item in tree2.get_children():
@@ -4239,14 +4185,9 @@ def mainwindow():
             db.commit()
             clear_all()
             refreshfn()
-
         ######################################sendemailtoparent#########################################
-        ####################by MSG SWARUPA######################
-
         def alertparents():
             ################################internetcheck#########################################
-            ####################by MSG SWARUPA######################
-
             def internet_stat(url="https://www.google.com/", timeout=3):
                 try:
                     r = requests.head(url=url, timeout=timeout)
@@ -4331,21 +4272,21 @@ def mainwindow():
                     server.send_message(msg,senderemail,address)
                     server.quit()
                     time.sleep(3)
-            
+        
         global count
         count = 0
         
         class_box = ttk.Combobox(root_2, values=allclasssection, width=15)
-        class_box.place(x=845, y=398)
+        class_box.place(x=515, y=518)
         
         datebox = ttk.Combobox(root_2, values=dates, width=15)
-        datebox.place(x=845, y=576)
+        datebox.place(x=845, y=518)
 
         alertdatebox = ttk.Combobox(root_2, values=dates, width=15)
-        alertdatebox.place(x=200, y=398)
+        alertdatebox.place(x=170, y=518)
 
         refresh = ttk.Button(root_2, text="REFRESH", width=15, padding=5, command=lambda: [difftree(), refreshfn() ,attlistfn()])
-        refresh.place(x=780, y=458)
+        refresh.place(x=460, y=568)
 
         exit2_button = ttk.Button(root_2, text="EXIT" ,width=15, padding=5,
                                   command=lambda: [root_2.destroy(),root.deiconify()])
@@ -4353,20 +4294,20 @@ def mainwindow():
 
         csvbutton=ttk.Button(root_2, text="SAVE TO EXCEL" ,width=15, padding=5,
                                   command=lambda: [writetocsv()])
-        csvbutton.place(x=440, y=458)
+        csvbutton.place(x=460, y=645)
 
         alert=ttk.Button(root_2, text="ALERT PARENTS" ,width=15, padding=5,
                                   command=lambda: [alertparents()])
-        alert.place(x=135, y=458)
+        alert.place(x=120, y=568)
 
         holidaybutton=ttk.Button(root_2, text="HOLIDAY" ,width=15, padding=5,
                                   command=lambda: [holiday()])
-        holidaybutton.place(x=780, y=636)
+        holidaybutton.place(x=780, y=568)
 
         root_2.mainloop()
 
     main.mainloop()
     db.close()
-
+            
 mainsplash.after(3000, mainwindow)
 mainsplash.mainloop()
